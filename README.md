@@ -57,7 +57,7 @@ var VueView = require('koa-vue-view');
 
 var app = new Koa();
 app.use(VueView({
-    methodName: 'render',
+    methodName: 'render',//在koa ctx注册渲染视图的方法名，默认render
     data: {
         _: require('lodash'),
         app: {
@@ -77,9 +77,16 @@ app.use(VueView({
 }));
 
 app.use(ctx => {
-    ctx.state.users = ['Tom', 'Jeck'];
+    ctx.state.users = [{
+        name: 'Tom',
+        age: 20
+    }, {
+        name: 'Alice',
+        age: 18
+    }];
     ctx.render(path.resolve(__dirname, './views/User.vue'));
-});
+})
+
 
 app.listen(8200);
 ```
