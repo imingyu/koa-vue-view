@@ -1,4 +1,7 @@
 # koa-vue-view
+![image](https://img.shields.io/npm/l/koa-vue-view.svg)
+[![image](https://img.shields.io/npm/v/koa-vue-view.svg)](https://www.npmjs.com/package/koa-vue-view)
+[![image](https://img.shields.io/npm/dt/koa-vue-view.svg)](https://www.npmjs.com/package/koa-vue-view)
 A Koa view engine which renders Vue components on server.
 
 # 需求
@@ -90,3 +93,57 @@ app.use(ctx => {
 
 app.listen(8200);
 ```
+
+# Options
+```javascript
+app.use(require('koa-vue-view')(options));
+```
+可接受的options选项：
+<table>
+    <thead>
+        <tr>
+            <td>选项</td>
+            <td>类型</td>
+            <td>默认值</td>
+            <td>描述</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>methodName</td>
+            <td>string</td>
+            <td>render</td>
+            <td>在koa ctx注册渲染视图的方法名，默认render</td>
+        </tr>
+        <tr>
+            <td>appendBody</td>
+            <td>boolean</td>
+            <td>false</td>
+            <td>渲染完成时追加到ctx.body中还是直接赋值给ctx.body</td>
+        </tr>
+        <tr>
+            <td>cache</td>
+            <td>boolean</td>
+            <td>process.env.NODE_ENV === 'production'</td>
+            <td>是否启用缓存，启用后仅在第一次加载视图时读取其内容，后续将从缓存中读取</td>
+        </tr>
+        <tr>
+            <td>renderer</td>
+            <td>object</td>
+            <td>require('vue-server-renderer').createRenderer()</td>
+            <td>vue ssr 渲染器</td>
+        </tr>
+        <tr>
+            <td>vue mixin可接受的任意选项，如：data，methods，components</td>
+            <td></td>
+            <td></td>
+            <td>将以mixin的方式，添加到每个渲染的页面的mixins中；在传递components时，请以{组件名,组件文件路径}的方式传递</td>
+        </tr>
+    </tbody>
+</table>
+
+# 更新日志
+## v0.1.0
+- 核心功能实现
+- 待添加单元测试，请等待后续版本在进行使用
+- 发布npm占坑

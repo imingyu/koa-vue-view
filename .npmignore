@@ -1,0 +1,8 @@
+node_modules
+.gitignore
+test
+src
+npm-debug.log
+.travis.yml
+build
+examples
