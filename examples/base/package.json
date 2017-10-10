@@ -1,0 +1,14 @@
+{
+    "name": "base",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "supervisor app.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "koa": "^2.3.0"
+    }
+}
