@@ -1,32 +1,38 @@
 {
-  "name": "koa-vue-view",
-  "version": "0.1.0",
-  "description": "A Koa view engine which renders Vue components on server.",
-  "main": "lib/index.js",
-  "directories": {
-    "example": "examples",
-    "lib": "lib"
-  },
-  "scripts": {
-    "test": "mocha test/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/imingyu/koa-vue-view.git"
-  },
-  "keywords": [
-    "koa-view",
-    "koa-vue-view"
-  ],
-  "author": "imingyu",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/imingyu/koa-vue-view/issues"
-  },
-  "homepage": "https://github.com/imingyu/koa-vue-view#readme",
-  "dependencies": {
-    "koa-compose": "^4.0.0",
-    "vue": "^2.4.4",
-    "vue-server-renderer": "^2.4.4"
-  }
+	"name": "koa-vue-view",
+	"version": "0.1.0",
+	"description": "A Koa view engine which renders Vue components on server.",
+	"main": "lib/index.js",
+	"directories": {
+		"example": "examples",
+		"lib": "lib"
+	},
+	"scripts": {
+		"test": "mocha test/index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/imingyu/koa-vue-view.git"
+	},
+	"keywords": [
+		"koa-view",
+		"koa-vue-view",
+		"koa-middleware"
+	],
+	"author": "imingyu",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/imingyu/koa-vue-view/issues"
+	},
+	"homepage": "https://github.com/imingyu/koa-vue-view#readme",
+	"dependencies": {
+		"vue": "^2.4.4",
+		"vue-server-renderer": "^2.4.4"
+	},
+	"devDependencies": {
+		"chai": "^4.1.2",
+		"koa": "^2.3.0",
+		"mocha": "^4.0.1",
+		"supertest": "^3.0.0"
+	}
 }
