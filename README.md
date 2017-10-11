@@ -25,7 +25,7 @@ A Koa view engine which renders Vue components on server.
 
 # 安装
 ```bash
-npm i -S koa-vue-view
+npm i -S koa-vue-view@1.x
 ```
 
 # 使用
@@ -109,7 +109,8 @@ app.use(VueView({
     }
 }));
 
-app.use(ctx => {
+app.use(function *(next) {
+    var ctx = this;
     ctx.state.users = [{
         name: 'Tom',
         age: 20
@@ -201,8 +202,9 @@ app.use(require('koa-vue-view')(options));
 </table>
 
 # Render
-```
-app.use(ctx=>{
+```javascript
+app.use(function *(next){
+    var ctx = this;
     ctx.render(文件路径|组件配置对象)
 })
 ```

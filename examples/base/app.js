@@ -36,7 +36,8 @@ app.use(VueView({
     }
 }));
 
-app.use(ctx => {
+app.use(function* (next) {
+    var ctx = this;
     ctx.state.users = [{
         name: 'Tom',
         age: 20

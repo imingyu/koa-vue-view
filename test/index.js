@@ -13,7 +13,8 @@ describe(`test koa-vue-view`, () => {
             app.use(VueView({
                 methodName: 'rd'
             }));
-            app.use(ctx => {
+            app.use(function* (next) {
+                var ctx = this;
                 assert.isTrue(typeof ctx.rd === 'function');
             })
             request(http.createServer(app.callback()))
@@ -32,7 +33,8 @@ describe(`test koa-vue-view`, () => {
                     }
                 }
             }));
-            app.use(ctx => {
+            app.use(function* (next) {
+                var ctx = this;
                 assert.isTrue(typeof ctx.render === 'function');
                 ctx.render(path.resolve(__dirname, './views/inputVueCallback.vue'));
             })
@@ -51,7 +53,8 @@ describe(`test koa-vue-view`, () => {
             app.use(VueView({
                 methodName: 'render'
             }));
-            app.use(ctx => {
+            app.use(function* (next) {
+                var ctx = this;
                 ctx.state.user = 'Tom';
                 ctx.render(path.resolve(__dirname, './views/base.vue'));
             })
@@ -70,7 +73,8 @@ describe(`test koa-vue-view`, () => {
             app.use(VueView({
                 methodName: 'render'
             }));
-            app.use(ctx => {
+            app.use(function* (next) {
+                var ctx = this;
                 ctx.state.msg = 'Hi';
                 ctx.render(path.resolve(__dirname, './views/top-bottom.vue'));
             })
@@ -101,7 +105,8 @@ describe(`test koa-vue-view`, () => {
                     Box: path.resolve(__dirname, './components/box1.vue')
                 }
             }));
-            app.use(ctx => {
+            app.use(function* (next) {
+                var ctx = this;
                 ctx.state.user = 'State.user';
                 ctx.state.age = 'State.age';
                 ctx.render({
@@ -139,12 +144,14 @@ describe(`test koa-vue-view`, () => {
             app.use(router.routes());
             app.use(router.allowedMethods());
 
-            router.get('/abc', ctx => {
+            router.get('/abc', function* (next) {
+                var ctx = this;
                 ctx.state.users = ['Tom', 'Alice'];
                 ctx.render(path.resolve(__dirname, './views/abc.vue'));
             })
 
-            app.use(ctx => {
+            app.use(function* (next) {
+                var ctx = this;
                 ctx.state.msg = 'Hi';
                 ctx.render(path.resolve(__dirname, './views/top-bottom.vue'));
             })
@@ -165,7 +172,8 @@ describe(`test koa-vue-view`, () => {
             }));
 
             var router = new Router();
-            router.get('/abc', ctx => {
+            router.get('/abc', function* (next) {
+                var ctx = this;
                 ctx.state.user = 'Tom';
                 ctx.render(path.resolve(__dirname, './views/abc.vue'));
             })
@@ -173,7 +181,8 @@ describe(`test koa-vue-view`, () => {
             app.use(router.routes());
             app.use(router.allowedMethods());
 
-            app.use(ctx => {
+            app.use(function* (next) {
+                var ctx = this;
                 ctx.state.msg = 'Hi';
                 ctx.render(path.resolve(__dirname, './views/top-bottom.vue'));
             })
