@@ -11,3 +11,4 @@ install:
 branches:
   only:
   - master
+  - 1.x
