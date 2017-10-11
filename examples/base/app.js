@@ -18,7 +18,20 @@ app.use(VueView({
         }
     },
     components: {
-        Master: path.resolve(__dirname, './views/Master.vue'),
+        Master: {
+            path: path.resolve(__dirname, './views/Master.vue'),
+            data() {
+                this.layoutVersion = '1.0.0';
+                return {
+                    layoutName: 'master'
+                }
+            },
+            methods: {
+                hight(str) {
+                    return `***${str}***`;
+                }
+            }
+        },
         Age: path.resolve(__dirname, './components/Age.vue')
     }
 }));

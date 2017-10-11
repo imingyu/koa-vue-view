@@ -1,13 +1,14 @@
 var assert = require('chai').assert,
     path = require('path'),
     Koa = require('koa'),
+    Router = require('koa-router'),
     http = require('http'),
     request = require('supertest'),
     VueView = require('../lib/index.js');
 
 describe(`test koa-vue-view`, () => {
-    describe('use', () => {
-        it('base', (done) => {
+    describe('app.use', () => {
+        it('基础', (done) => {
             var app = new Koa();
             app.use(VueView({
                 methodName: 'rd'
@@ -20,10 +21,32 @@ describe(`test koa-vue-view`, () => {
                     done();
                 });
         })
+        it('传入回调函数', (done) => {
+            var app = new Koa();
+            app.use(VueView(Vue => {
+                return {
+                    sd: 1,
+                    methodName: 'render',
+                    components: {
+                        Iv: path.resolve(__dirname, './components/iv.vue')
+                    }
+                }
+            }));
+            app.use(ctx => {
+                assert.isTrue(typeof ctx.render === 'function');
+                ctx.render(path.resolve(__dirname, './views/inputVueCallback.vue'));
+            })
+            request(http.createServer(app.callback()))
+                .get('/').end(function (err, res) {
+                    if (err) return done(err);
+                    assert.isTrue('<span data-server-rendered="true" class="iv">Hi</span>' === res.text.trim());
+                    done();
+                });
+        })
     })
 
-    describe('render', () => {
-        it('base', (done) => {
+    describe('渲染测试', () => {
+        it('基础', (done) => {
             var app = new Koa();
             app.use(VueView({
                 methodName: 'render'
@@ -42,7 +65,26 @@ describe(`test koa-vue-view`, () => {
                 });
         })
 
-        it('priority', (done) => {
+        it('静态头部尾部渲染', (done) => {
+            var app = new Koa();
+            app.use(VueView({
+                methodName: 'render'
+            }));
+            app.use(ctx => {
+                ctx.state.msg = 'Hi';
+                ctx.render(path.resolve(__dirname, './views/top-bottom.vue'));
+            })
+            request(http.createServer(app.callback()))
+                .get('/')
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    assert.isTrue('abc<div data-server-rendered="true">123Hi</div>456' === res.text.trim());
+                    done();
+                });
+        })
+
+        it('优先级渲染', (done) => {
             var app = new Koa();
             app.use(VueView({
                 methodName: 'render',
@@ -62,7 +104,8 @@ describe(`test koa-vue-view`, () => {
             app.use(ctx => {
                 ctx.state.user = 'State.user';
                 ctx.state.age = 'State.age';
-                ctx.render(path.resolve(__dirname, './views/priority.vue'), {
+                ctx.render({
+                    path: path.resolve(__dirname, './views/priority.vue'),
                     data: {
                         user: 'Inline.user'
                     },
@@ -81,41 +124,67 @@ describe(`test koa-vue-view`, () => {
                 .expect(200)
                 .end(function (err, res) {
                     if (err) return done(err);
-                    console.log(res.text.trim());
-                    assert.isTrue('<div data-server-rendered="true"><span>Inline.user</span><span>State.age</span><span>Inline.add:3</span><div class="box2">2</div></div>' === res.text.trim());
+                    assert.isTrue('abc<div data-server-rendered="true"><span>Inline.user</span><span>State.age</span><span>Inline.add:3</span><div class="box2">2</div></div>' === res.text.trim());
                     done();
                 });
         })
 
-        // it('Global methods && data', (done) => {
-        //     var app = new Koa();
-        //     app.use(VueView({
-        //         methodName: 'render',
-        //         data: {
-        //             user: 'Global.user',
-        //             users: [
-        //                 { name: 'Jeck', age: 20 },
-        //                 { name: 'Alice', age: 22 }
-        //             ]
-        //         },
-        //         methods: {
-        //             add(a, b) {
-        //                 return a + b;
-        //             }
-        //         }
-        //     }));
-        //     app.use(ctx => {
-        //         ctx.state.user = 'Tom';
-        //         ctx.render(path.resolve(__dirname, './views/base.vue'));
-        //     })
-        //     request(http.createServer(app.callback()))
-        //         .get('/')
-        //         .expect(200)
-        //         .end(function (err, res) {
-        //             if (err) return done(err);
-        //             assert.isTrue('<span data-server-rendered="true">Tom</span>' === res.text.trim());
-        //             done();
-        //         });
-        // })
+        it('路由渲染1', (done) => {
+            var app = new Koa();
+            app.use(VueView({
+                methodName: 'render'
+            }));
+
+            var router = new Router();
+            app.use(router.routes());
+            app.use(router.allowedMethods());
+
+            router.get('/abc', ctx => {
+                ctx.state.users = ['Tom', 'Alice'];
+                ctx.render(path.resolve(__dirname, './views/abc.vue'));
+            })
+
+            app.use(ctx => {
+                ctx.state.msg = 'Hi';
+                ctx.render(path.resolve(__dirname, './views/top-bottom.vue'));
+            })
+            request(http.createServer(app.callback()))
+                .get('/')
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    assert.isTrue('abc<div data-server-rendered="true">123Hi</div>456' === res.text.trim());
+                    done();
+                });
+        })
+
+        it('路由渲染2', (done) => {
+            var app = new Koa();
+            app.use(VueView({
+                methodName: 'render'
+            }));
+
+            var router = new Router();
+            router.get('/abc', ctx => {
+                ctx.state.user = 'Tom';
+                ctx.render(path.resolve(__dirname, './views/abc.vue'));
+            })
+
+            app.use(router.routes());
+            app.use(router.allowedMethods());
+
+            app.use(ctx => {
+                ctx.state.msg = 'Hi';
+                ctx.render(path.resolve(__dirname, './views/top-bottom.vue'));
+            })
+            request(http.createServer(app.callback()))
+                .get('/abc')
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    assert.isTrue('<div data-server-rendered="true">Tom</div>' === res.text.trim());
+                    done();
+                });
+        })
     })
 });
