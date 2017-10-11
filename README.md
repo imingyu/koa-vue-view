@@ -1,5 +1,5 @@
 # koa-vue-view
-[![Build Status](https://travis-ci.org/imingyu/koa-vue-view.svg?branch=master)](https://travis-ci.org/imingyu/koa-vue-view)
+[![Build Status](https://travis-ci.org/imingyu/koa-vue-view.svg?branch=1.x)](https://travis-ci.org/imingyu/koa-vue-view)
 ![image](https://img.shields.io/npm/l/koa-vue-view.svg)
 [![image](https://img.shields.io/npm/v/koa-vue-view.svg)](https://www.npmjs.com/package/koa-vue-view)
 [![image](https://img.shields.io/npm/dt/koa-vue-view.svg)](https://www.npmjs.com/package/koa-vue-view)
