@@ -201,14 +201,16 @@ app.use(require('koa-vue-view')(options));
 </table>
 
 # Render
-```
-app.use(ctx=>{
+```javascript
+app.use(ctx => {
     ctx.render(文件路径|组件配置对象)
 })
 ```
 
 # 更新日志
-> `x`代表1或者2，1对应的是koa1适用的版本，2对应的是koa2对应的版本；
-## x.1.2
+> 1.x对应的是koa1适用的版本，2.x对应的是koa2对应的版本；
+## 2.1.3
 - 核心功能实现
-- 待添加单元测试
+
+## 1.1.1
+- 核心功能实现
