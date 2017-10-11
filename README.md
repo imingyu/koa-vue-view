@@ -17,8 +17,11 @@ A Koa view engine which renders Vue components on server.
 
 ## 本中间件包含功能：
 - 服务端渲染vue语法的视图文件
+- 视图文件的语法采用vue组件的编写语法
 - 支持vue的组件化
 - 支持全局数据、组件等共享
+
+> 注意：本中间件虽然支持vue组件的编写语法，但是仅会处理其中的`template`部分，其他的如`style`，`script`等部分都会原样输出
 
 # 安装
 ```bash
