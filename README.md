@@ -10,8 +10,15 @@ A Koa view engine which renders Vue components on server.
 
 # 需求
 我熟悉书写vue的代码，感觉她的语法很简洁明了，并且支持组件化；我最近在学习使用koa编写node web应用，在koa框架中渲染视图有很多选择；但是我想在koa中使用vue来渲染视图；
+
 我在调研了vue的ssr解决方案后，感觉她很好，但是不满足我的需求，我只是想用她的语法和组件化来实现视图渲染，渲染的数据想从koa的`ctx.state`中读取，也不想前后端同用同一套路由这种方式；
+
 所以我觉得用vue的ssr的基础部分——服务端渲染vue实例，来完成我的需求，即此中间件诞生；
+
+## 本中间件包含功能：
+- 服务端渲染vue语法的视图文件
+- 支持vue的组件化
+- 支持全局数据、组件等共享
 
 # 安装
 ```bash
@@ -126,6 +133,14 @@ app.use(ctx => {
 app.listen(8200);
 ```
 
+# 规约
+- 在读取视图文件内容时，会将其内容分割为三部分：`header`、`template`、`footer`；
+    - `template`截取自文件中第一对顶级`template`标签中的内容；
+    - `header`截取自文件中第一对顶级`template`标签的前面内容；
+    - `footer`截取自文件中第一对顶级`template`标签的后面内容；
+    - **视图文件中仅允许包含一对顶级`template`标签**
+- **渲染视图时仅渲染`template`部分**
+
 # Options
 ```javascript
 app.use(require('koa-vue-view')(options));
@@ -191,7 +206,6 @@ app.use(ctx=>{
 
 # 更新日志
 > `x`代表1或者2，1对应的是koa1适用的版本，2对应的是koa2对应的版本；
-## x.1.0
+## x.1.2
 - 核心功能实现
-- 待添加单元测试，请等待后续版本在进行使用
-- 发布npm占坑
+- 待添加单元测试
