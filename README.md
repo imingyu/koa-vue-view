@@ -5,6 +5,8 @@
 
 A Koa view engine which renders Vue components on server.
 
+> 1.x的分支/npm包支持koa1；master分支和2.x版本的npm包支持koa2。
+
 # 需求
 我熟悉书写vue的代码，感觉她的语法很简洁明了，并且支持组件化；我最近在学习使用koa编写node web应用，在koa框架中渲染视图有很多选择；但是我想在koa中使用vue来渲染视图；
 我在调研了vue的ssr解决方案后，感觉她很好，但是不满足我的需求，我只是想用她的语法和组件化来实现视图渲染，渲染的数据想从koa的`ctx.state`中读取，也不想前后端同用同一套路由这种方式；
@@ -105,6 +107,18 @@ app.use(ctx => {
         age: 18
     }];
     ctx.render(path.resolve(__dirname, './views/User.vue'));
+    /*
+    或者
+    ctx.render({
+        path:path.resolve(__dirname, './views/User.vue'),
+        data(){
+            return {name:'Github'}
+        },
+        methods:{
+            show(){}
+        }
+    });
+    */
 })
 
 
@@ -151,16 +165,32 @@ app.use(require('koa-vue-view')(options));
             <td>vue ssr 渲染器</td>
         </tr>
         <tr>
+            <td>data</td>
+            <td>object|function</td>
+            <td></td>
+            <td>全局共享数据对象，在所以组件和页面中都可以共享使用，如果传递的是function，则执行function的this对象指向运行的组件或者页面的vue实例</td>
+        </tr>
+        <tr>
             <td>vue mixin可接受的任意选项，如：data，methods，components</td>
             <td></td>
             <td></td>
-            <td>将以mixin的方式，添加到每个渲染的页面的mixins中；在传递components时，请以{组件名,组件文件路径}的方式传递</td>
+            <td>
+            将以mixin的方式，添加到每个渲染的页面的mixins中；
+            </td>
         </tr>
     </tbody>
 </table>
 
+# Render
+```
+app.use(ctx=>{
+    ctx.render(文件路径|组件配置对象)
+})
+```
+
 # 更新日志
-## v0.1.0
+> `x`代表1或者2，1对应的是koa1适用的版本，2对应的是koa2对应的版本；
+## x.1.0
 - 核心功能实现
 - 待添加单元测试，请等待后续版本在进行使用
 - 发布npm占坑
