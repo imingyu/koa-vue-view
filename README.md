@@ -1,5 +1,5 @@
 # koa-vue-view
-[![Build Status](https://travis-ci.org/imingyu/koa-vue-view.svg?branch=1.x)](https://travis-ci.org/imingyu/koa-vue-view)
+[![Build Status](https://travis-ci.org/imingyu/koa-vue-view.svg?branch=master)](https://travis-ci.org/imingyu/koa-vue-view)
 ![image](https://img.shields.io/npm/l/koa-vue-view.svg)
 [![image](https://img.shields.io/npm/v/koa-vue-view.svg)](https://www.npmjs.com/package/koa-vue-view)
 [![image](https://img.shields.io/npm/dt/koa-vue-view.svg)](https://www.npmjs.com/package/koa-vue-view)
@@ -25,7 +25,7 @@ A Koa view engine which renders Vue components on server.
 
 # 安装
 ```bash
-npm i -S koa-vue-view@1.x
+npm i -S koa-vue-view
 ```
 
 # 使用
@@ -109,8 +109,7 @@ app.use(VueView({
     }
 }));
 
-app.use(function *(next) {
-    var ctx = this;
+app.use(ctx => {
     ctx.state.users = [{
         name: 'Tom',
         age: 20
@@ -167,10 +166,16 @@ app.use(require('koa-vue-view')(options));
             <td>在koa ctx注册渲染视图的方法名，默认render</td>
         </tr>
         <tr>
+            <td>replaceBody</td>
+            <td>boolean</td>
+            <td>true</td>
+            <td>是否使用渲染后的字符串替换ctx.body的内容</td>
+        </tr>
+        <tr>
             <td>appendBody</td>
             <td>boolean</td>
             <td>false</td>
-            <td>渲染完成时追加到ctx.body中还是直接赋值给ctx.body</td>
+            <td>replaceBody=true时，将渲染后的字符串追加到ctx.body中还是直接赋值给ctx.body</td>
         </tr>
         <tr>
             <td>cache</td>
@@ -203,14 +208,21 @@ app.use(require('koa-vue-view')(options));
 
 # Render
 ```javascript
-app.use(function *(next){
-    var ctx = this;
-    ctx.render(文件路径|组件配置对象)
+app.use(ctx => {
+    ctx.render(文件路径|组件配置对象).then(html=>{})
 })
 ```
 
 # 更新日志
-> `x`代表1或者2，1对应的是koa1适用的版本，2对应的是koa2对应的版本；
-## x.1.2
+> 1.x对应的是koa1适用的版本，2.x对应的是koa2对应的版本；
+## 2.1.5
+- fix issues[#1](https://github.com/imingyu/koa-vue-view/issues/1)
+
+## 1.1.2
+- fix issues[#1](https://github.com/imingyu/koa-vue-view/issues/1)
+
+## 2.1.3
 - 核心功能实现
-- 待添加单元测试
+
+## 1.1.1
+- 核心功能实现
