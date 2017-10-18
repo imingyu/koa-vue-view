@@ -1,0 +1,1 @@
+abc<template><div>123{{msg}}</div></template>456
