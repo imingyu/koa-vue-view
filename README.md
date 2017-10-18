@@ -215,7 +215,10 @@ app.use(ctx => {
 
 # 更新日志
 > 1.x对应的是koa1适用的版本，2.x对应的是koa2对应的版本；
-## 2.1.4
+## 2.1.5
+- fix issues[#1](https://github.com/imingyu/koa-vue-view/issues/1)
+
+## 1.1.2
 - fix issues[#1](https://github.com/imingyu/koa-vue-view/issues/1)
 
 ## 2.1.3
