@@ -23,6 +23,9 @@ A Koa view engine which renders Vue components on server.
 
 > 注意：本中间件虽然支持vue组件的编写语法，但是仅会处理其中的`template`部分，其他的如`style`，`script`等部分都会原样输出
 
+## 待添加功能：
+- 不应编译视图文件中template标签中的前端用的vue代码
+
 # 安装
 ```bash
 npm i -S koa-vue-view
