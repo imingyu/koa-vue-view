@@ -68,6 +68,29 @@ describe(`test koa-vue-view`, () => {
                 });
         })
 
+        it('filterHtml', (done) => {
+            var app = new Koa();
+            app.use(VueView({
+                methodName: 'render',
+                filterHtml(html) {
+                    return 'a' + html;
+                }
+            }));
+            app.use(function* (next) {
+                var ctx = this;
+                ctx.state.user = 'Tom';
+                ctx.render(path.resolve(__dirname, './views/base.vue'));
+            })
+            request(http.createServer(app.callback()))
+                .get('/')
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    assert.isTrue('a<span data-server-rendered="true">Tom</span>' === res.text.trim());
+                    done();
+                });
+        })
+
         it('静态头部尾部渲染', (done) => {
             var app = new Koa();
             app.use(VueView({

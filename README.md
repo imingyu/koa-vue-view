@@ -23,6 +23,9 @@ A Koa view engine which renders Vue components on server.
 
 > 注意：本中间件虽然支持vue组件的编写语法，但是仅会处理其中的`template`部分，其他的如`style`，`script`等部分都会原样输出
 
+## 待添加功能：
+- 不应编译视图文件中template标签中的前端用的vue代码
+
 # 安装
 ```bash
 npm i -S koa-vue-view
@@ -178,6 +181,12 @@ app.use(require('koa-vue-view')(options));
             <td>replaceBody=true时，将渲染后的字符串追加到ctx.body中还是直接赋值给ctx.body</td>
         </tr>
         <tr>
+            <td>filterHtml</td>
+            <td>function</td>
+            <td></td>
+            <td>可指定一个函数用于过滤render之后的html字符串，ctx.body=函数返回值=过滤后的字符串</td>
+        </tr>
+        <tr>
             <td>cache</td>
             <td>boolean</td>
             <td>process.env.NODE_ENV === 'production'</td>
@@ -215,6 +224,11 @@ app.use(ctx => {
 
 # 更新日志
 > 1.x对应的是koa1适用的版本，2.x对应的是koa2对应的版本；
+
+## 2.1.6  |  1.1.6
+- 解决全局组件中引用全局组件时渲染出错的问题；
+- 加入`filterHtml`配置项，用于过滤渲染后的html字符串
+
 ## 2.1.5
 - fix issues[#1](https://github.com/imingyu/koa-vue-view/issues/1)
 
