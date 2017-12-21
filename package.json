@@ -1,6 +1,6 @@
 {
 	"name": "koa-vue-view",
-	"version": "2.1.5",
+	"version": "2.1.6",
 	"description": "A Koa view engine which renders Vue components on server.",
 	"main": "lib/index.js",
 	"directories": {
